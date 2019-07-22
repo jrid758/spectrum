@@ -44,12 +44,10 @@ export default {
         .y(d => y(d.amplitude))
 
       let x = d3.scaleLinear()
-        // .domain(d3.extent(this.traceData, d => d.freq))
         .domain([850, 1150])
         .range([0,this.width])
 
       let y = d3.scaleLinear()
-        // .domain(d3.extent(this.traceData, d => d.amplitude))
         .domain([-130, -30])
         .range([this.height, 0])
       
@@ -57,8 +55,28 @@ export default {
         .data([this.traceData])
         .attr('fill','none')
         .attr('class','pathLines')
-        .attr('stroke', 'black')
+        .attr('stroke', 'yellow')
         .attr('d', this.line)
+      
+       let xAxisGroup = this.dataGroup
+        .append('g')
+        .attr('class', 'xAxisGroup')
+        .attr('transform', `translate(0,${this.height})`)
+
+      let xAxis = d3.axisBottom(x).ticks(5).tickSize(-1 * this.height).tickFormat(o => o + ' MHZ')
+
+      xAxis(xAxisGroup)
+
+      let yAxisGroup = this.dataGroup
+        .append('g')
+        .attr('class', 'yAxisGroup')
+        
+
+      let yAxis = d3.axisLeft(y).tickSize(-1 * this.width).tickFormat(o => o + ' dBm')
+
+      yAxis(yAxisGroup)
+
+      d3.selectAll('text').style("font-size","15px").style("color","white")
     }
   },
   mounted() {
@@ -69,5 +87,45 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+body {
+  background-color: 'black';
+  font-weight: bold;
+  color: white;
+}
+
+svg {
+  position: relative;
+}
+
+.plot {
+  background-color: black;
+}
+
+.tick line{
+  color: white;
+  opacity: 0.2;
+  stroke-dasharray: 5,5;
+}
+
+.xAxisGroup .tick:first-of-type > text {
+    transform: translate(40px ,0px);
+}
+
+.xAxisGroup .tick:last-of-type > text {
+    transform: translate(-40px ,0px);
+}
+
+.xAxisGroup .tick:last-of-type > text {
+    transform: translate(-40px ,0px);
+}
+
+.xAxisGroup .tick:nth-child(n+3):nth-child(-n+4) > text {
+    visibility: hidden;
+}
+
+.xAxisGroup .tick:nth-child(n+6):nth-child(-n+7) > text {
+    visibility: hidden;
+}
+
 </style>
