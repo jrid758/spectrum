@@ -31,6 +31,28 @@ export default {
       })
      
     },
+    updateGraphInfo: function(num) {
+       axios
+      .get(`http://localhost/api/trace/${num}`)
+      .then(response => {
+        this.traceData = response.data
+        this.time_trace = response.data[0].trace_time
+        // cycle through all trace data, once to 50 start back at 1
+        if(num < 50) {
+          num++
+        } else {
+          num = 1
+        }
+
+        setTimeout((o) => {
+          this.updatePlot(this.traceData)
+          this.updateGraphInfo(num)}, 300)
+         })
+    },
+    updatePlot: function(data) {
+      // update path with new data
+      d3.select('path').data([data]).attr('d', this.line)
+    },
     init: function() {
       this.dataGroup = d3.select('.plot')
         .append('svg')
@@ -77,6 +99,9 @@ export default {
       yAxis(yAxisGroup)
 
       d3.selectAll('text').style("font-size","15px").style("color","white")
+
+      // start updating graph
+      setTimeout((o) => {this.updateGraphInfo(2)}, 300);
     }
   },
   mounted() {
