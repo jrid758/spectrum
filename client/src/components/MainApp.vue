@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class='plot'></div>
+    <div class='time'>{{ time_trace }}</div>
   </div>
 </template>
 
@@ -131,6 +132,13 @@ svg {
   color: white;
   opacity: 0.2;
   stroke-dasharray: 5,5;
+}
+
+.time {
+  color: green;
+  top: 680px;
+  left: 575px;
+  position: absolute;
 }
 
 .xAxisGroup .tick:first-of-type > text {
