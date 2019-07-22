@@ -4,23 +4,26 @@ const mysql = require('mysql')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const port = process.env.PORT || 80
+let port = process.env.PORT || 80
 const app = express()
 const moment = require('moment')
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: 'localhost',
     port: 3306,
     user: 'root',
     password: process.env.DB_PASS,
-    database: 'lpt'
+    database: 'lpt',
+    multipleStatements: true
 });
 
+
+app.use(cors({origin: '*'}));
 app.use(express.static('dist'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(cors({origin: '*'}));
+
 
 // api to retrieve traces from database
 app.get('/api/trace/:id', function(req,res,next) {

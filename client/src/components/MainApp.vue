@@ -18,12 +18,13 @@ export default {
       width: 1200,
       height: 600,
       line: null,
+      ip: '108.243.124.46'
     }
   },
   methods: {
     getGraphInfo: function() {
       axios
-      .get('http://localhost/api/trace/1')
+      .get(`http://${this.ip}/api/trace/1`)
       .then(response => {
         this.traceData = response.data
         this.time_trace = response.data[0].trace_time
@@ -34,7 +35,7 @@ export default {
     },
     updateGraphInfo: function(num) {
        axios
-      .get(`http://localhost/api/trace/${num}`)
+      .get(`http://${this.ip}/api/trace/${num}`)
       .then(response => {
         this.traceData = response.data
         this.time_trace = response.data[0].trace_time
