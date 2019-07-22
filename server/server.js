@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(cors({origin: '*'}));
 
 // api to retrieve traces from database
-app.get('/api/traces/:id', function(req,res,next) {
+app.get('/api/trace/:id', function(req,res,next) {
     let sql = `SELECT trace_data,trace_time FROM test WHERE trace_id = ${req.params.id}`
     db.query(sql , function (err, result, fields) {
     if (err) {
